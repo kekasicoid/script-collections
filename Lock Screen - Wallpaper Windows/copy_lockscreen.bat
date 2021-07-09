@@ -11,21 +11,21 @@ echo Hai %USERNAME%
 echo Mohon tunggu...
 echo. 
 echo Hapus File %cd%\edit\*
-@RD /S /Q "%cd%\edit\" 
+del /F /Q "%cd%\edit\*.*" 
 
 REM mengambil drive path lokasi windows di install  
-set lsPath=%windir%\Users\%USERNAME%\AppData\Local\Packages\Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy\LocalState\Assetss
-set lsPath=%lsPath:\WINDOWS=%    
-set lsParent=%lsPath:Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy\LocalState\Assetss=Microsoft.Windows.ContentDeliveryManager_*%  
-echo.
-if exist %lsPath% (
+set "lsPath=%windir%\Users\%USERNAME%\AppData\Local\Packages\Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy\LocalState\Assets"
+set "lsPath=%lsPath:\WINDOWS=%"   
+set "lsParent=%lsPath:Microsoft.Windows.ContentDeliveryManager_cw5n1h2txyewy\LocalState\Assets=Microsoft.Windows.ContentDeliveryManager_*%" 
+echo. 
+if exist "%lsPath%" (
     echo Lokasi Folder Lock Screen : Ditemukan
     echo %lsPath%
 
 ) else (
     echo Mencari Folder Lock Screen...
     echo.
-    for /d %%G in (%lsParent%) do (
+    for /d %%G in ("%lsParent%") do (
         echo Lokasi Folder Lock Screen : Ditemukan   
         echo %%G\LocalState\Assets
         set lsPath=%%G\LocalState\Assets
@@ -34,12 +34,12 @@ if exist %lsPath% (
     echo Arditya Kekasi
 )
 :break   
+
 echo.  
 echo Menduplikat data...
 xcopy /s "%lsPath%\*.*" "%cd%\edit\" /h /i /c /r /y /q
 cd "edit"
-ren *.* *.jpg 
-
+ren *.* *.jpg  
 echo.
 echo Membuka Folder Lock Screen 
 timeout 2 /nobreak 
